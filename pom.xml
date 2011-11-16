@@ -1,0 +1,71 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <!--
+     | POM Relationships
+     -->
+
+    <parent>
+        <groupId>net.codjo.pom</groupId>
+        <artifactId>codjo-pom-library</artifactId>
+        <version>1.0</version>
+    </parent>
+    <groupId>net.codjo.imports</groupId>
+    <artifactId>codjo-imports</artifactId>
+    <version>3.41-SNAPSHOT</version>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>net.codjo.imports</groupId>
+                <artifactId>codjo-imports-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.codjo.imports</groupId>
+                <artifactId>codjo-imports-gui</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.codjo.imports</groupId>
+                <artifactId>codjo-imports-plugin-filter-kernel</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <dependencies>
+    </dependencies>
+
+    <!--
+     | Build Settings
+     -->
+
+    <packaging>pom</packaging>
+    <modules>
+        <module>codjo-imports-common</module>
+        <module>codjo-imports-gui</module>
+        <module>codjo-imports-server</module>
+        <module>codjo-imports-batch</module>
+        <module>codjo-imports-plugin</module>
+        <module>codjo-imports-release-test</module>
+    </modules>
+
+    <!--
+    | Project Information
+    -->
+
+    <name>Lib &gt; Imports</name>
+    <description>Regroupement des differentes librairies permettant de faire des imports.</description>
+    <inceptionYear>2003</inceptionYear>
+
+    <!--
+    | Environment Information
+    -->
+
+    <scm>
+        <connection>scm:git:https://github.com/codjo/codjo-imports.git</connection>
+        <developerConnection>scm:git:https://github.com/codjo/codjo-imports.git</developerConnection>
+        <url>https://github.com/codjo/codjo-imports</url>
+    </scm>
+
+</project>

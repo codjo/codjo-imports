@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+
+    <properties>
+        <title>codjo-imports-common</title>
+    </properties>
+
+    <body>
+        <section name="Imports">
+            <p>
+                Librairie responsable des imports
+            </p>
+            <p>
+                Une page sur les "Astuces concernant la mise en oeuvre d'un plan
+                d'intégration" est
+                <a href="http://4ddev02/vqwiki/jsp/Wiki?AstucesPlanIntegration">accessible
+                    sur le Wiki</a>
+                .
+            </p>
+            <subsection name="Packages">
+                <p>
+                    Description rapide des packages de cette librairie.
+                </p>
+                <table>
+                    <tr>
+                        <th>Package</th>
+                        <th>Commentaire</th>
+                    </tr>
+                    <!-- ................................................................ -->
+                    <!--  net.codjo.control.common                                          -->
+                    <!-- ................................................................ -->
+                    <tr>
+                        <td>
+                            <a href="./apidocs/net/codjo/imports/common/package-summary.html">
+                                common</a>
+                        </td>
+                        <td>
+                            Noyau de l'import.
+                        </td>
+                    </tr>
+                </table>
+            </subsection>
+        </section>
+        <section name="Fonctionnalités">
+            <p>
+                Les format des dates est debridé : il est possible de spécfier n'importe
+                quel format de date compris par java (cf. SimpleDateFormat).
+            </p>
+            <p>
+                Il est possible de créer des fonctions d'import personnalisées.
+            </p>
+            <p>
+                Il est possible de créer un traitement executé avant un import. Exemple
+                pour un import en mode annule et remplace avec une clause 'where' :
+                <code>
+                    <![CDATA[ importBehavior.setPreProcessor(new DeleteLinesProcessor("ERROR_FIELDS > 0"));]]>
+                </code>
+            </p>
+            <p>
+                Il est possible de créer des expressions personnalisées. Il faut créer une
+                classe héritant de FunctionHolder. Celle ci dispose d'un 'nom' (Exemple :
+                'opcvm'). Elle doit être setté dans l'ImportBehaviourDao. Dans le
+                paramétrage d'import, on appel une des fonction de la classe en la
+                prefixant par son 'nom'. Exemple :
+                <code>
+                    <![CDATA[ opcvm.compute(valeur);]]>
+                </code>
+            </p>
+        </section>
+    </body>
+</document>

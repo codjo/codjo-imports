@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+    <properties>
+        <title>Changes</title>
+    </properties>
+    <body>
+        <release date="2007-02-06" version="2.12" description="évolution">
+            <action dev="crego" type="add">
+                Enrichissement du message sur une erreur d'import (fichier + ligne).
+            </action>
+        </release>
+        <release date="2006-11-03" version="2.11" description="Ajout">
+            <action dev="blazart, lopezla" type="add">
+                Ajout de la variable 'Ligne' pour récuperer la totalitéé de la ligne dans les expressions
+                et rennomage de la variable Ligne en NumLigne.
+            </action>
+        </release>
+        <release date="2006-09-04" version="2.10" description="évolution">
+            <action type="update">
+                Permettre de changer le type de la donnée importée grâce à une expression.
+            </action>
+        </release>
+        <release date="2006-06-26" version="2.09" description="évolution">
+            <action type="update">
+                ConstantField (anciennement ConstantFieldImport) étend désormais Field au
+                lieu d'implémenter FieldImport.
+            </action>
+        </release>
+        <release date="2006-06-14" version="2.08" description="Ajout">
+            <action type="add">
+                Ajout de la methode ConstantFieldImport.setvalue pour utilisation sur
+                BENCHMARK.
+            </action>
+            <action dev="galaber" type="add">
+                Déplacement de la classe correspondant à un champs constant
+                (ConstantFieldImport) du module ejb vers common et modification de sa
+                visibilité à public.
+            </action>
+        </release>
+        <release date="2006-05-19" version="2.07">
+            <action dev="TORRENT" type="add">
+                Ajout d'une balise root 'entities' dans les fichiers datagen pour la
+                gestion des xsd. Incompatible avec les versions de datagen inférieures à
+                1.20.
+            </action>
+        </release>
+        <release date="2006-02-09" version="2.06">
+            <action dev="TORRENT" type="add">
+                Ajout de la possibilité de créer des fonctions d'import personnalisées.
+            </action>
+
+            <action dev="BLAZART" type="fix">
+                Déridage de la gestion des formats de date.
+            </action>
+        </release>
+        <release date="2005-03-04" version="2.04" description="Correction Bug bloquant">
+            <action dev="palmont" type="fix">
+                Migration XP.
+            </action>
+            <action dev="gonnot" type="fix">
+                Correction du bug 'import avec filtre' (ImportBehavior#doImport()).
+                Lorsqu'une ligne était filtré,
+                l'import ne se terminait jamais.
+            </action>
+        </release>
+        <release date="2004-09-06" version="2.01" description="Correction Bug bloquant">
+            <action dev="lajmi" type="fix">
+                on génère plus les contraintes entre les tables, et regénère les Triggers
+                Delete et UI.
+            </action>
+            <action dev="gonnot" type="fix">
+                Correction du bug 'import avec filtre' (ImportBehavior#doImport()).
+                Lorsqu'une ligne était filtré,
+                l'import ne se terminait jamais.
+            </action>
+        </release>
+        <release date="2004-06-18" version="2.00" description="Ajout">
+            <action dev="galaber" type="update">
+                Extraction du typage des classes FieldImport vers des classes Translator.
+            </action>
+            <action dev="galaber" type="update">
+                Ajout d'un paramètre type de fichier pour la construction de
+                l'ImportBehavior par le DAO.
+            </action>
+            <action dev="galaber" type="update">
+                La méthode init est appellée directement dans le constructeur (modif dans
+                la
+                lib Expression).
+            </action>
+            <action dev="galaber" type="add">
+                Ajout de la classe FieldWithExpression, la classe FieldImport a ete
+                renommee en
+                AbstractFieldImport et creation d'une interface implémentée par les 2
+                classes
+                précédement nommées.
+            </action>
+            <action dev="gonnot" type="add">
+                Ajout de la classe DAO (ImporBehaviorDao).
+            </action>
+            <action dev="galaber" type="update">
+                Changement de la clé primaire de la table 'PM_FIELD_IMPORT_SETTINGS' vers
+                le
+                champs 'dbDestinationFieldName'.
+            </action>
+        </release>
+        <release date="2004-02-17" version="1.09" description="Evolution">
+            <action dev="gonnot" type="add">
+                Ajout de la fonction pre-processing a un import. Creation d'un
+                PreProcessor
+                pour faire un annule et remplace avec une clause 'where' spécifique.
+            </action>
+            <action dev="gonnot" type="fix">
+                Correction de problèmes liés aux rapport maven (PMD, Checkstyle).
+            </action>
+        </release>
+        <release date="2003-10-29" version="1.06" description="Correction">
+            <action dev="spinae" type="fix">
+                Passage a la version 1.05 de codjo-trigger.
+            </action>
+        </release>
+        <release date="2003-09-08" version="1.05" description="Evolution">
+            <action dev="spinae" type="fix">
+                Ajout d'un controle apres insertion pour detecter l'echec de l'insertion.
+            </action>
+        </release>
+        <release date="2003-07-16" version="1.04" description="Correction">
+            <action dev="spinae" type="fix">
+                Correction du bug du premier champ vide dans un import delimité
+            </action>
+            <action dev="GONNOT" type="fix">
+                Stabilisation des SNAPSHOT.
+            </action>
+        </release>
+        <release date="2003-05-23" version="1.03" description="Version initiale">
+            <action dev="gonnot" type="fix">Mavenisation de la librairie avec changement
+                de nom.</action>
+        </release>
+    </body>
+</document>

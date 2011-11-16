@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<entity name="net.codjo.imports.release_test.common.data.ImportSettings" table="PM_IMPORT_SETTINGS">
+    <description>Paramétrage d'import</description>
+    <feature>
+        <generate-all/>
+        <trigger-delete>
+            <cascade entity="net.codjo.imports.release_test.common.data.FieldImportSettings">
+                <key from="importSettingsId" to="importSettingsId"/>
+            </cascade>
+        </trigger-delete>
+        <sql-index>
+            <pk name-prefix="PK_" type="nonclustered"/>
+            <index name-prefix="X1_" type="unique nonclustered" fields="fileType"/>
+            <idx type="primary-key" name-prefix="X1_" clustered="false"/>
+            <idx type="index" name-prefix="X2_" unique="true" clustered="false">
+                <field name="fileType"/>
+            </idx>
+        </sql-index>
+    </feature>
+    <primary-key key-generator="MAX">
+        <field name="importSettingsId"/>
+    </primary-key>
+    <properties>
+        <field name="importSettingsId" type="java.lang.Integer">
+            <description>Numéro d'import</description>
+            <sql required="true" type="integer"/>
+        </field>
+        <field name="fileType" type="string">
+            <description>Type de fichier</description>
+            <sql precision="30" type="varchar" required="true"/>
+        </field>
+        <field name="sourceSystem" type="string">
+            <description>Systeme source</description>
+            <sql precision="30" type="varchar"/>
+        </field>
+        <field name="recordLength" type="java.lang.Integer">
+            <description>Longueur d'un enregistrement</description>
+            <sql type="integer"/>
+        </field>
+        <field name="comment" type="string">
+            <description>Commentaires</description>
+            <sql precision="255" type="varchar"/>
+        </field>
+        <field name="fixedLength" type="boolean">
+            <description>Longueur fixe</description>
+            <sql required="true" type="bit"/>
+        </field>
+        <field name="fieldSeparator" type="string">
+            <description>Séparateur de champ</description>
+            <sql precision="2" type="varchar"/>
+        </field>
+        <field name="headerLine" type="boolean">
+            <description>Ligne d'entête</description>
+            <sql required="true" type="bit"/>
+        </field>
+        <field name="destTable" type="string">
+            <description>Table destination</description>
+            <sql precision="30" required="true" type="varchar"/>
+        </field>
+    </properties>
+</entity>
+<entity name="net.codjo.imports.release_test.common.data.FieldImportSettings" table="PM_FIELD_IMPORT_SETTINGS">
+    <description>Paramétrage des champs d'un import</description>
+    <feature>
+        <generate-all/>
+        <handler-select id="selectFieldImportSettingsByFile">
+            <query>SELECT p FROM net.codjo.imports.release_test.common.data.FieldImportSettings p WHERE importSettingsId = $1 ORDER BY position</query>
+            <arg>importSettingsId</arg>
+        </handler-select>
+        <trigger-iu>
+            <check-record-exist entity="net.codjo.imports.release_test.common.data.ImportSettings">
+                <key from="importSettingsId" to="importSettingsId"/>
+            </check-record-exist>
+        </trigger-iu>
+        <sql-index>
+            <idx type="primary-key" name-prefix="X1_" clustered="false"/>
+        </sql-index>
+    </feature>
+    <primary-key>
+        <field name="importSettingsId"/>
+        <field name="dbDestinationFieldName"/>
+    </primary-key>
+    <!-- a titre informatif les FK ne sont pas genere. Ici c'est les triggers D et UI qui sont utilise -->
+    <foreign-keys>
+        <link id="FK_IMPORT_SETTINGS_FIELD_IMP" table="net.codjo.imports.release_test.common.data.ImportSettings">
+            <field from="importSettingsId" to="importSettingsId"/>
+        </link>
+    </foreign-keys>
+    <properties>
+        <field name="importSettingsId" type="java.lang.Integer">
+            <description>Numéro d'import</description>
+            <sql required="true" type="integer"/>
+        </field>
+        <field name="position" type="java.lang.Integer">
+            <description>Position</description>
+            <sql required="true" type="integer"/>
+        </field>
+        <field name="length" type="java.lang.Integer">
+            <description>Longueur du champ</description>
+            <sql type="integer"/>
+        </field>
+        <field name="dbDestinationFieldName" type="string">
+            <description>Nom physique du champ destination</description>
+            <sql precision="30" required="true" type="varchar"/>
+        </field>
+        <field name="destinationFieldType" type="string">
+            <description>Type du champ destination</description>
+            <sql precision="1" required="true" type="varchar"/>
+        </field>
+        <field name="inputDateFormat" type="string">
+            <description>Format de la date à importer</description>
+            <sql precision="10" type="varchar"/>
+        </field>
+        <field name="removeLeftZeros" type="boolean">
+            <description>Suppression des zéros à gauche</description>
+            <sql required="true" type="bit"/>
+        </field>
+        <field name="decimalSeparator" type="string">
+            <description>Séparateur décimal</description>
+            <sql precision="1" type="varchar"/>
+        </field>
+        <field name="expression" type="string">
+            <description>Expression</description>
+            <sql type="text"/>
+        </field>
+    </properties>
+</entity>

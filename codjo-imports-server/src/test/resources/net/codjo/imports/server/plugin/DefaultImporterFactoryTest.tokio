@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE Scenarii SYSTEM "http://scenarii.dtd">
+<Scenarii name="AUTOMATIC">
+    <Scenario id="ImportDecisiv">
+        <input>
+            <table name="PM_IMPORT_SETTINGS">
+                <row>
+                    <field name="FIXED_LENGTH" value="false"/>
+                    <field name="IMPORT_SETTINGS_ID" value="1"/>
+                    <field name="FILE_TYPE" value="DefaultImporterFactoryTest"/>
+                    <field name="DEST_TABLE" value="MY_QUARANTINE"/>
+                    <field name="FIELD_SEPARATOR" value=";"/>
+                    <field name="SOURCE_SYSTEM" value="source-AGF"/>
+                </row>
+            </table>
+            <table name="PM_FIELD_IMPORT_SETTINGS">
+                <row>
+                    <field name="DESTINATION_FIELD_TYPE" value="S"/>
+                    <field name="DB_DESTINATION_FIELD_NAME" value="MY_FIELD_1"/>
+                    <field name="IMPORT_SETTINGS_ID" value="1"/>
+                    <field name="POSITION" value="1"/>
+                </row>
+                <row>
+                    <field name="DESTINATION_FIELD_TYPE" value="S"/>
+                    <field name="DB_DESTINATION_FIELD_NAME" value="MY_FIELD_2"/>
+                    <field name="IMPORT_SETTINGS_ID" value="1"/>
+                    <field name="POSITION" value="2"/>
+                </row>
+            </table>
+        </input>
+        <etalon>
+            <table name="MY_QUARANTINE">
+                <row>
+                    <field name="MY_FIELD_1" value="VALUE_11"/>
+                    <field name="MY_FIELD_2" value="VALUE_21"/>
+                </row>
+            </table>
+        </etalon>
+    </Scenario>
+    <Scenario id="AjouteParasite">
+        <input>
+            <table name="MY_QUARANTINE">
+                <row>
+                    <field name="MY_FIELD_1" value="PARASITE"/>
+                    <field name="MY_FIELD_2" value="n/a"/>
+                    <field name="SOURCE_SYSTEM" value="n/a"/>
+                    <field name="SOURCE_FILE" value="n/a"/>
+                    <field name="CREATION_DATETIME" value="TODAY"/>
+                </row>
+            </table>
+        </input>
+        <etalon/>
+    </Scenario>
+    <Scenario id="EmptyQuarantine">
+        <input/>
+        <etalon>
+            <table name="MY_QUARANTINE"/>
+        </etalon>
+    </Scenario>
+</Scenarii>

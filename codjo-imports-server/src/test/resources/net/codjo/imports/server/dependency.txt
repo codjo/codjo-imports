@@ -1,0 +1,21 @@
+net.codjo.imports.server.audit
+	-> net.codjo.imports.common.message
+	-> net.codjo.workflow.common.message
+	-> net.codjo.workflow.server.plugin
+
+net.codjo.imports.server.plugin
+	-> net.codjo.agent
+	-> net.codjo.expression
+	-> net.codjo.imports.common
+	-> net.codjo.imports.common.message
+	-> net.codjo.imports.plugin.filter.kernel
+	-> net.codjo.imports.server.audit
+	-> net.codjo.plugin.server
+	-> net.codjo.sql.server
+	-> net.codjo.sql.server.plugin
+	-> net.codjo.workflow.common.message
+	-> net.codjo.workflow.common.organiser
+	-> net.codjo.workflow.common.protocol
+	-> net.codjo.workflow.server.api
+	-> net.codjo.workflow.server.organiser
+	-> net.codjo.workflow.server.plugin

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<document>
+
+    <properties>
+        <title>codjo-imports-gui</title>
+    </properties>
+
+    <body>
+        <section name="Imports-gui">
+            <p>
+                Librairie d'import: IHM et wizard.
+            </p>
+            <subsection name="Packages">
+                <p>
+                    Description rapide des packages de cette librairie.
+                </p>
+                <table>
+                    <tr>
+                        <th>Package</th>
+                        <th>Commentaire</th>
+                    </tr>
+                    <!-- ................................................................ -->
+                    <!--  net.codjo.imports.gui                                              -->
+                    <!-- ................................................................ -->
+                    <tr>
+                        <td>
+                            <a href="./apidocs/net/codjo/imports/gui/package-summary.html">
+                                gui</a>
+                        </td>
+                        <td>
+                            IHM detail.
+                        </td>
+                    </tr>
+                </table>
+            </subsection>
+        </section>
+        <section name="Configuration de l'import à la demande">
+            <p>
+                Les propriétés suivantes doivent être configurés dans le JNLP de lancement :
+                <ul>
+                    <li>
+                        <code>imports.vtom</code>
+                        <br>
+                        contient le nom du fichier Batch de l'
+                            <i>import à la demande</i>
+                        (exemple : L:/pims/batch/importAlaDemande.bat). Ce script doit
+                        accepter comme arguments :
+                        </br>
+                    </li>
+                    <ol>
+                        <li> &lt;initiateur&gt; : l'utilisateur demandant l'import </li>
+                        <li> &lt;fileName&gt; : le nom du fichier à importer (se trouve dans l'INBOX)</li>
+                    </ol>
+                    <li>
+                        <code>imports.inbox</code>
+                        <br>
+                        contient le nom du repertoire INBOX
+                        (exemple : L:/pims/inbox)</br>
+                    </li>
+                </ul>
+            </p>
+        </section>
+    </body>
+</document>

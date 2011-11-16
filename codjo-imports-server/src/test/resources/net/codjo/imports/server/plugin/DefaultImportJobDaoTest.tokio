@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE cases SYSTEM "http://cases.dtd">
+<cases>
+    <case id="nominal">
+        <input>
+            <table name="PM_IMPORT_SETTINGS">
+                <row>
+                    <field name="IMPORT_SETTINGS_ID" value="1"/>
+                    <field name="FILE_TYPE" value="DefaultImporterFactoryTest"/>
+                    <field name="DEST_TABLE" value="MY_QUARANTINE"/>
+                </row>
+                <row>
+                    <field name="IMPORT_SETTINGS_ID" value="2"/>
+                    <field name="FILE_TYPE" value="DefaultDaoTest"/>
+                    <field name="DEST_TABLE" value="MY_QUARANTINE_TEST"/>
+                </row>
+            </table>
+        </input>
+    </case>
+</cases>

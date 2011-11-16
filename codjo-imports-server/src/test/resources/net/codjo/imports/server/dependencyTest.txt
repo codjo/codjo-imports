@@ -1,0 +1,21 @@
+net.codjo.imports.server
+
+net.codjo.imports.server.audit
+	-> net.codjo.workflow.common.message
+
+net.codjo.imports.server.plugin
+	-> net.codjo.agent
+	-> net.codjo.agent.test
+	-> net.codjo.database.common.api
+	-> net.codjo.database.common.api.structure
+	-> net.codjo.imports.common
+	-> net.codjo.sql.server
+	-> net.codjo.sql.server.plugin
+	-> net.codjo.test.common
+	-> net.codjo.tokio
+	-> net.codjo.workflow.common.message
+	-> net.codjo.workflow.common.organiser
+	-> net.codjo.workflow.server.api
+	-> net.codjo.workflow.server.plugin
+	-> org.mockito
+	-> org.mockito.internal.progress

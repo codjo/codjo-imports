@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<document>
+
+    <properties>
+        <title>codjo-imports-plugin-filter</title>
+    </properties>
+
+    <body>
+        <section name="Généralités">
+            <p>
+                Cette librairie est un plugin pour codjo-imports permettant de spécifier des filtres d'imports.
+                Pour l'instant, un seul filtre utilisant les expressions est défini.
+            </p>
+            <p>
+                Le paramétrage associé se trouve dans une nouvelle colonne
+                <code>FILTER_EXPRESSION</code>
+                de la table
+                <code>PM_IMPORT_SETTINGS</code>.
+            </p>
+        </section>
+        <section name="Utilisation">
+            <subsection name="Datagen">
+                <p>
+                    Les étapes décrites ici permettent de modifier automatiquement la table
+                    <code>PM_IMPORT_SETTINGS</code>.
+                </p>
+                <p>
+                    Dans le fichier principal de configuration Datagen, rajouter l'entité suivante :
+                    <source><![CDATA[
+<!ENTITY imports-plugin-filter-param SYSTEM "@codjo-imports:codjo-imports-plugin-filter-def@">
+                    ]]></source>
+
+                et son utilisation :
+                    <source><![CDATA[
+                        &imports-plugin-filter-param;
+                    ]]></source>
+                </p>
+                <p>
+                Dans le fichier
+                    <code>project.properties</code>, ajouter la propriété suivante :
+                    <source><![CDATA[
+maven.datagen.entityDeps = codjo-imports:codjo-imports-plugin-filter-def, ...
+                    ]]></source>
+                </p>
+            </subsection>
+            <subsection name="Import-EJB">
+                <p>
+                    Pour que le filtre Expression soit activé, il faut spécifier la fabrique de filtre
+                    <code>ExpressionFilterDao</code> dans le fichier
+                    <code>ImportParam.properties</code>.
+                </p>
+                <p>
+                    Exemple de configuration :
+                    <source><![CDATA[
+ENV_ENTRY = \
+            <env-entry> \
+                <description>Fabrique de filtres d'import</description> \
+                <env-entry-name>param/FILTER_FACTORY</env-entry-name> \
+                <env-entry-type>java.lang.String</env-entry-type> \
+                <env-entry-value>net.codjo.imports.plugin.filter.kernel.ExpressionFilterDao</env-entry-value> \
+            </env-entry> \
+                    ]]></source>
+                </p>
+            </subsection>
+            <subsection name="GUI">
+                <p>
+                    Pour que l'IHM de configuration des imports tienne compte du filtre,
+                    il faut utiliser la classe
+                    <code>ImportSettingsFilterDetailWindow</code> en tant qu'écran de détail.
+                </p>
+                <p>
+                    Exemple de configuration dans le fichier
+                    <code>preference.xml</code> :
+                    <source><![CDATA[
+<preference detailWindowClassName="net.codjo.imports.plugin.filter.gui.ImportSettingsFilterDetailWindow" id="ImportSettingsWindow">
+    <selectByPk>selectImportSettingsById</selectByPk>
+    <selectAll>selectAllImportSettings</selectAll>
+    <insert>newImportSettings</insert>
+    <update>updateImportSettings</update>
+    <delete>deleteImportSettings</delete>
+    <column fieldName="destTable" label="Table de destination"/>
+    <column fieldName="fileType" label="Type de fichier" maxSize="100" minSize="100"/>
+    <column fieldName="comment" label="Description" minSize="50"/>
+</preference>
+                    ]]></source>
+                </p>
+            </subsection>
+            <subsection name="Livraison SQL">
+                <p>
+                Si la livraison nécessite de créer des fichiers d'ALTER, on peut utiliser un script nommé
+                    <code>Tables\Alter\Alter PM_IMPORT_SETTINGS.tab</code> et contenant ceci :
+                    <source><![CDATA[
+if not exists (select 1 from syscolumns where id=object_id('PM_IMPORT_SETTINGS') and name='FILTER_EXPRESSION')
+begin
+
+/* Ajout de la colonne FILTER_EXPRESSION */
+
+exec('alter table PM_IMPORT_SETTINGS add FILTER_EXPRESSION text null')
+print 'alter table PM_IMPORT_SETTINGS ajout FILTER_EXPRESSION effectue'
+
+end
+go
+                    ]]></source>
+                </p>
+            </subsection>
+        </section>
+    </body>
+</document>

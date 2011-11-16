@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<entities>
+    <add-field to="net.codjo.imports.common.data.FieldImportSettings">
+        <field name="sourceFieldType" type="string">
+            <description>Type du champ source</description>
+            <sql precision="1" type="varchar"/>
+        </field>
+    </add-field>
+</entities>

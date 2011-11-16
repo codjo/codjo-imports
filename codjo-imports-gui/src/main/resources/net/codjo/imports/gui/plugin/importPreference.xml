@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<preferenceList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:noNamespaceSchemaLocation="http://preference.xsd">
+
+    <preference detailWindowClassName="net.codjo.imports.gui.FieldImportDetailWindow"
+                id="FieldImportWindow">
+        <selectByPk>selectFieldImportSettingsById</selectByPk>
+        <selectAll>selectFieldImportSettingsByFile</selectAll>
+        <insert>newFieldImportSettings</insert>
+        <update>updateFieldImportSettings</update>
+        <delete>deleteFieldImportSettings</delete>
+        <column fieldName="position" label="Position" preferredSize="50"  sorter="Numeric"/>
+        <column fieldName="dbDestinationFieldName" label="Colonne" preferredSize="100"/>
+    </preference>
+    <preference detailWindowClassName="net.codjo.imports.gui.ImportSettingsDetailWindow"
+                id="ImportSettingsWindow">
+        <selectByPk>selectImportSettingsById</selectByPk>
+        <selectAll>selectAllImportSettings</selectAll>
+        <insert>newImportSettings</insert>
+        <update>updateImportSettings</update>
+        <delete>deleteImportSettings</delete>
+        <column fieldName="destTable" label="Table de destination"/>
+        <column fieldName="fileType" label="Type de fichier" preferredSize="100"/>
+        <column fieldName="comment" label="Description" preferredSize="50"/>
+    </preference>
+</preferenceList>

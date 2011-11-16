@@ -1,0 +1,33 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <!--
+     | POM Relationships
+     -->
+
+    <artifactId>codjo-imports-plugin</artifactId>
+    <parent>
+        <groupId>net.codjo.imports</groupId>
+        <artifactId>codjo-imports</artifactId>
+        <version>3.41-SNAPSHOT</version>
+    </parent>
+    
+    <!--
+     | Build Settings
+     -->
+     
+    <packaging>pom</packaging>
+    <modules>
+        <module>codjo-imports-plugin-filter</module>
+    </modules>
+
+
+    <!--
+    | Project Information
+    -->
+
+    <name>Lib &gt; Imports &gt; Plugin &gt; Filter</name>
+    <description>Plugin Filter de la librairie Imports</description>
+    <inceptionYear>2003</inceptionYear>
+</project>

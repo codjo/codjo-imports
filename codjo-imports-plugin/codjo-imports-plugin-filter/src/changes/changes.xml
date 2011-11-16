@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<document>
+    <properties>
+        <title>Changes</title>
+    </properties>
+    <body>
+        <release date="2006-05-19" version="2.07">
+            <action dev="TORRENT" type="add">
+                Ajout d'une balise root 'entities' dans les fichiers datagen pour la gestion des xsd. Incompatible avec les versions de datagen inférieures à 1.20.
+            </action>
+        </release>
+        <release date="2004-11-10" version="2.03">
+        <action dev="galaber" type="add">
+                Ajout de la méthode extractField dans les expressions de filtre.
+        </action>
+        </release>
+        <release date="2004-10-19" version="2.02" description="Version initiale">
+            <action dev="galaber" type="add">
+                Ajout d'un plugin de filtre utilisant les expressions.
+            </action>
+        </release>
+    </body>
+</document>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+    <properties>
+        <title>Changes</title>
+    </properties>
+    <body>
+        <release version="1.05" date="2003-09-09" description="Evolution">
+            <action dev="GONNOT" type="fix">
+               Ajout d'un clean-up sur la fermeture de l'assistant.
+            </action>
+        </release>
+        <release version="1.04" date="2003-09-05" description="Stabilisation">
+            <action dev="GONNOT" type="fix">
+               Stabilisation des SNAPSHOT.
+            </action>
+        </release>
+        <release version="1.00" date="2003-05-26" description="Version initiale">
+            <action dev="spinae" type="add">
+                Extraction de la librairie à partir du projet Pims.
+            </action>
+        </release>
+    </body>
+</document>

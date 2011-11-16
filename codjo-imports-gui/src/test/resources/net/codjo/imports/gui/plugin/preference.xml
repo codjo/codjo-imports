@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<preferenceList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:noNamespaceSchemaLocation="http://preference.xsd">
+    <preference id="CountryList"
+                detailWindowClassName="net.codjo.imports.gui.ImportGuiPluginTest">
+        <selectAll>selectAllCountry</selectAll>
+        <selectByPk>selectCountryById</selectByPk>
+        <update>updateCountry</update>
+        <delete>deleteCountry</delete>
+        <insert>newCountry</insert>
+        <requetor>allCountry</requetor>
+        <column fieldName="countryCode" label="Code" preferredSize="20"/>
+        <column fieldName="countryName" label="Libellé" preferredSize="450"/>
+    </preference>
+
+    <preference detailWindowClassName="net.codjo.imports.gui.FieldImportDetailWindow"
+                id="FieldImportWindow">
+        <selectByPk>selectFieldImportSettingsById</selectByPk>
+        <selectAll>selectFieldImportSettingsByFile</selectAll>
+        <insert>newFieldImportSettings</insert>
+        <update>updateFieldImportSettings</update>
+        <delete>deleteFieldImportSettings</delete>
+        <column fieldName="position" label="Position" maxSize="100" minSize="50"/>
+    </preference>
+    <preference detailWindowClassName="net.codjo.imports.gui.ImportSettingsDetailWindow"
+                id="ImportSettingsWindow">
+        <selectByPk>selectImportSettingsById</selectByPk>
+        <selectAll>selectAllImportSettings</selectAll>
+        <insert>newImportSettings</insert>
+        <update>updateImportSettings</update>
+        <delete>deleteImportSettings</delete>
+        <column fieldName="destTable" label="Table de destination"/>
+    </preference>
+</preferenceList>

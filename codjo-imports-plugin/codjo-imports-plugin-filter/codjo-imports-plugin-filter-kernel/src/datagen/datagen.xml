@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<entities>
+    <add-field to="net.codjo.imports.common.data.ImportSettings">
+        <field name="filterExpression" type="string">
+            <description>Expression booléenne permettant d'exclure certaines lignes du
+                fichier avant importation.</description>
+            <sql type="text"/>
+        </field>
+    </add-field>
+</entities>

@@ -1,0 +1,4 @@
+rem ligne supprimé par un filtre;;
+rem ligne supprimé par un filtre;;
+Le petit cheval blanc;9999.25;30/01/2002
+Le grand toto; null;28/02/2002
