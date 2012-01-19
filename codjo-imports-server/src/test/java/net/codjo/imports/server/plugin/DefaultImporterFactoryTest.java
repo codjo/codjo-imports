@@ -4,6 +4,10 @@
  * Common Apache License 2.0
  */
 package net.codjo.imports.server.plugin;
+import java.io.File;
+import java.sql.Connection;
+import java.sql.SQLException;
+import junit.framework.TestCase;
 import net.codjo.agent.AclMessage;
 import net.codjo.agent.test.DummyAgent;
 import net.codjo.database.common.api.JdbcFixture;
@@ -17,10 +21,7 @@ import net.codjo.sql.server.JdbcServiceUtilMock;
 import net.codjo.test.common.LogString;
 import net.codjo.test.common.PathUtil;
 import net.codjo.tokio.TokioFixture;
-import java.io.File;
-import java.sql.Connection;
-import java.sql.SQLException;
-import junit.framework.TestCase;
+import org.junit.Test;
 /**
  * Classe de test de {@link DefaultImporterFactory}.
  */
@@ -101,6 +102,22 @@ public class DefaultImporterFactoryTest extends TestCase {
         importer.execute();
 
         fixture.assertAllOutputs("ImportDecisiv");
+    }
+
+
+    @Test
+    public void test_getShortFileName() throws Exception {
+        String fileNameTooLong = "fichier_123456789_nom_trop_long_max_size_30.txt";
+        String fileNameNormal = "fichier_size_normal.txt";
+
+        assertTrue(factory.getConfiguration().isTruncateFileName());
+        assertEquals("_nom_trop_long_max_size_30.txt", factory.getShortFileName(fileNameTooLong));
+        assertEquals(fileNameNormal, factory.getShortFileName(fileNameNormal));
+
+        factory.getConfiguration().setTruncateFileName(false);
+        assertFalse(factory.getConfiguration().isTruncateFileName());
+        assertEquals(fileNameTooLong, factory.getShortFileName(fileNameTooLong));
+        assertEquals(fileNameNormal, factory.getShortFileName(fileNameNormal));
     }
 
 

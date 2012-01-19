@@ -1,8 +1,8 @@
 package net.codjo.imports.server.plugin;
+import java.util.List;
 import net.codjo.expression.FunctionHolder;
 import net.codjo.imports.common.FilterFactory;
 import net.codjo.imports.common.Processor;
-import java.util.List;
 /**
  *
  */
@@ -17,9 +17,8 @@ public interface ImportServerPluginConfiguration {
 
 
     /**
-     * Positionne l'attribut qui indique si la lecture d'une ligne (pour le type fichier a longueur fixe,
-     * ayant pour systeme source sourceSystem) doit etre faites de maniere fixe ou en tenant compte du retour
-     * chariot.
+     * Positionne l'attribut qui indique si la lecture d'une ligne (pour le type fichier a longueur fixe, ayant pour
+     * systeme source sourceSystem) doit etre faites de maniere fixe ou en tenant compte du retour chariot.
      *
      * @param sourceSystem    Le système source des imports concerné.
      * @param isFixedReadLine La nouvelle valeur de fixedReadLine
@@ -44,4 +43,10 @@ public interface ImportServerPluginConfiguration {
 
 
     List<FunctionHolder> getFunctionHolders();
+
+
+    void setTruncateFileName(boolean isTruncateFileName);
+
+
+    boolean isTruncateFileName();
 }
