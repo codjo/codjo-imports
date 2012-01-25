@@ -1,15 +1,16 @@
 package net.codjo.imports.server.plugin;
-import net.codjo.expression.FunctionHolder;
-import net.codjo.imports.common.FilterFactory;
-import net.codjo.imports.common.Processor;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import net.codjo.expression.FunctionHolder;
+import net.codjo.imports.common.FilterFactory;
+import net.codjo.imports.common.Processor;
 /**
  *
  */
 class DefaultImportServerPluginConfiguration implements ImportServerPluginConfiguration {
+    private boolean truncateFileName = true;
     private FilterFactory filterFactory;
     private Map<String, Boolean> fixedReadLineFor = new HashMap<String, Boolean>();
     private Map<String, Processor> processorFor = new HashMap<String, Processor>();
@@ -34,6 +35,16 @@ class DefaultImportServerPluginConfiguration implements ImportServerPluginConfig
 
     public List<FunctionHolder> getFunctionHolders() {
         return functionHolderList;
+    }
+
+
+    public void setTruncateFileName(boolean isTruncateFileName) {
+        truncateFileName = isTruncateFileName;
+    }
+
+
+    public boolean isTruncateFileName() {
+        return truncateFileName;
     }
 
 
