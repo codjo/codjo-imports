@@ -4,6 +4,10 @@
  * Common Apache License 2.0
  */
 package net.codjo.imports.server.plugin;
+import java.io.File;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Types;
 import net.codjo.agent.AclMessage;
 import net.codjo.agent.Agent;
 import net.codjo.imports.common.ConstantField;
@@ -14,10 +18,6 @@ import net.codjo.imports.common.ImportFilter;
 import net.codjo.imports.common.Processor;
 import net.codjo.sql.server.ConnectionPool;
 import net.codjo.sql.server.JdbcServiceUtil;
-import java.io.File;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Types;
 /**
  *
  */
@@ -72,9 +72,11 @@ class DefaultImporterFactory implements ImporterFactory {
     }
 
 
-    private static String getShortFileName(final String fileName) {
-        if (fileName.length() > 30) {
-            return fileName.substring(fileName.length() - 30);
+    String getShortFileName(final String fileName) {
+        if (configuration.isTruncateFileName()) {
+            if (fileName.length() > 30) {
+                return fileName.substring(fileName.length() - 30);
+            }
         }
         return fileName;
     }
