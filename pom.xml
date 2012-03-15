@@ -8,7 +8,7 @@
 
     <parent>
         <groupId>net.codjo.pom</groupId>
-        <artifactId>codjo-pom-library</artifactId>
+        <artifactId>codjo-pom-external</artifactId>
         <version>SNAPSHOT</version>
     </parent>
     <groupId>net.codjo.imports</groupId>
@@ -55,7 +55,7 @@
     -->
 
     <name>Lib &gt; Imports</name>
-    <description>Regroupement des differentes librairies permettant de faire des imports.</description>
+    <description>Libraries for importing text files (CSV, etc.) into a database</description>
     <inceptionYear>2003</inceptionYear>
 
     <!--
