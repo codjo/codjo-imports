@@ -144,25 +144,39 @@ public class DefaultImporterFactoryTest extends TestCase {
           throws SQLException {
         // TODO a initialiser a partir de Datagen (utilisation de DatagenFixture)
         //      pour l'instant difficile car le fichier datagen ne fait pas parti du projet
-        jdbc.create(SqlTable.table("PM_IMPORT_SETTINGS"), "      IMPORT_SETTINGS_ID  int  not null, "
-                                                          + "    FILE_TYPE           varchar(30)  not null, "
-                                                          + "    SOURCE_SYSTEM       varchar(30)  null, "
-                                                          + "    RECORD_LENGTH       int  null, "
-                                                          + "    COMMENT             varchar(255)  null, "
-                                                          + "    FIXED_LENGTH        bit default 0  not null, "
-                                                          + "    FIELD_SEPARATOR     varchar(2)  null, "
-                                                          + "    HEADER_LINE         bit default 0  not null, "
-                                                          + "    DEST_TABLE          varchar(30)  not null");
-        jdbc.create(SqlTable.table("PM_FIELD_IMPORT_SETTINGS"),
-                    "      IMPORT_SETTINGS_ID        int  not null, "
-                    + "    POSITION                  int  not null, "
-                    + "    LENGTH                    int  null, "
-                    + "    DB_DESTINATION_FIELD_NAME varchar(30)  not null, "
-                    + "    DESTINATION_FIELD_TYPE    varchar(1)  not null, "
-                    + "    INPUT_DATE_FORMAT         varchar(10)  null, "
-                    + "    REMOVE_LEFT_ZEROS         bit default 0  not null, "
-                    + "    DECIMAL_SEPARATOR         varchar(1)  null, "
-                    + "    EXPRESSION                text  null");
+        Connection con = jdbc.getConnection();
+        jdbc.create(SqlTable.table("PM_IMPORT_SETTINGS"),
+                    toOracleIfNeeded(con, "      IMPORT_SETTINGS_ID  int  not null, "
+                                          + "    FILE_TYPE           varchar(30)  not null, "
+                                          + "    SOURCE_SYSTEM       varchar(30)  null, "
+                                          + "    RECORD_LENGTH       int  null, "
+                                          + "    COMMENT             varchar(255)  null, "
+                                          + "    FIXED_LENGTH        bit default 0  not null, "
+                                          + "    FIELD_SEPARATOR     varchar(2)  null, "
+                                          + "    HEADER_LINE         bit default 0  not null, "
+                                          + "    DEST_TABLE          varchar(30)  not null"));
+        jdbc.create(SqlTable.table("PM_FIELD_IMPORT_SETTINGS"), toOracleIfNeeded(con,
+                                                                                 "      IMPORT_SETTINGS_ID        int  not null, "
+                                                                                 + "    POSITION                  int  not null, "
+                                                                                 + "    LENGTH                    int  null, "
+                                                                                 + "    DB_DESTINATION_FIELD_NAME varchar(30)  not null, "
+                                                                                 + "    DESTINATION_FIELD_TYPE    varchar(1)  not null, "
+                                                                                 + "    INPUT_DATE_FORMAT         varchar(10)  null, "
+                                                                                 + "    REMOVE_LEFT_ZEROS         bit default 0  not null, "
+                                                                                 + "    DECIMAL_SEPARATOR         varchar(1)  null, "
+                                                                                 + "    EXPRESSION                text  null"));
+    }
+
+
+    private static String toOracleIfNeeded(Connection con, String sqlRequest) throws SQLException {
+        if (con.getMetaData().getDriverName().toLowerCase().contains("oracle")) {
+            return sqlRequest.replaceAll("COMMENT", "\"COMMENT\"")
+                  .replaceAll("bit", "number(1)")
+                  .replaceAll("text", "clob");
+        }
+        else {
+            return sqlRequest;
+        }
     }
 
 
