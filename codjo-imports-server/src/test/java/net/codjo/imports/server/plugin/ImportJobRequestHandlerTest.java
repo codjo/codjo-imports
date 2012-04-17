@@ -1,4 +1,6 @@
 package net.codjo.imports.server.plugin;
+import java.sql.Connection;
+import java.sql.SQLException;
 import net.codjo.agent.UserId;
 import net.codjo.imports.server.plugin.ImportJobRequestHandler.ImportJobDao;
 import net.codjo.sql.server.ConnectionPoolMock;
@@ -7,14 +9,13 @@ import net.codjo.test.common.LogString;
 import net.codjo.workflow.common.message.Arguments;
 import net.codjo.workflow.common.message.JobRequest;
 import net.codjo.workflow.common.organiser.Job;
-import java.sql.Connection;
-import java.sql.SQLException;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.stub;
 

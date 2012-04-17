@@ -18,4 +18,4 @@ net.codjo.imports.server.plugin
 	-> net.codjo.workflow.server.api
 	-> net.codjo.workflow.server.plugin
 	-> org.mockito
-	-> org.mockito.internal.progress
+	-> org.mockito.stubbing
