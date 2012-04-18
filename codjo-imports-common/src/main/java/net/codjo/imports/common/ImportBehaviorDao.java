@@ -4,7 +4,6 @@
  * Common Apache License 2.0
  */
 package net.codjo.imports.common;
-import net.codjo.expression.FunctionHolder;
 import java.io.File;
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -12,17 +11,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import net.codjo.expression.FunctionHolder;
 /**
  * Classe permettant de charger un paramétrage d'import à partir de la BD.
  */
 public class ImportBehaviorDao {
-    private static final String SELECT_SETTINGS_FROM_TYPE =
-          "select * from PM_IMPORT_SETTINGS where FILE_TYPE = ? ";
-    private static final String SELECT_SETTINGS_WITH_TYPE =
-          "select * from PM_IMPORT_SETTINGS where charindex(FILE_TYPE,?) >0 "
-          + "order by char_length(FILE_TYPE) desc";
-    private static final String SELECT_FIELD_IMPORT_LIST =
-          "select * from PM_FIELD_IMPORT_SETTINGS where IMPORT_SETTINGS_ID = ? ";
     private FunctionHolder[] functionHolders;
 
 
@@ -113,7 +106,8 @@ public class ImportBehaviorDao {
                                                                   String fileType) throws SQLException {
         PreparedStatement importSettingsIdPS;
 
-        importSettingsIdPS = con.prepareStatement(SELECT_SETTINGS_FROM_TYPE);
+        importSettingsIdPS = con.prepareStatement(SQLRequestBuilderFactory.getSqlBuilder(con)
+                                                        .getSelectSettingsFromType());
         importSettingsIdPS.setString(1, fileType);
 
         return importSettingsIdPS;
@@ -124,7 +118,8 @@ public class ImportBehaviorDao {
                                                                   String fileName) throws SQLException {
         PreparedStatement importSettingsIdPS;
 
-        importSettingsIdPS = con.prepareStatement(SELECT_SETTINGS_WITH_TYPE);
+        importSettingsIdPS = con.prepareStatement(SQLRequestBuilderFactory.getSqlBuilder(con)
+                                                        .getSelectSettingsWithType());
         importSettingsIdPS.setString(1, fileName);
 
         return importSettingsIdPS;
@@ -134,7 +129,8 @@ public class ImportBehaviorDao {
     private void addFields(Connection con, ImportBehavior importBehavior,
                            BigDecimal importSettingId, boolean fixedLength, String fieldSeparator)
           throws SQLException, ImportExpressionException {
-        PreparedStatement fieldsST = con.prepareStatement(SELECT_FIELD_IMPORT_LIST);
+        PreparedStatement fieldsST = con.prepareStatement(SQLRequestBuilderFactory.getSqlBuilder(con)
+                                                                .getSelectFieldImportList());
         try {
             fieldsST.setBigDecimal(1, importSettingId);
             ResultSet rs = fieldsST.executeQuery();
@@ -192,8 +188,8 @@ public class ImportBehaviorDao {
 
 
     /**
-     * Convertit (pour patcher) Le fieldSeparator. Cette methode est utilise a cause des BCP car il convertit
-     * "\t" en "\\t".
+     * Convertit (pour patcher) Le fieldSeparator. Cette methode est utilise a cause des BCP car il convertit "\t" en
+     * "\\t".
      *
      * @param fieldSeparator Description of Parameter
      *
