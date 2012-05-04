@@ -4,14 +4,6 @@
  * Common Apache License 2.0
  */
 package net.codjo.imports.gui.wizard;
-import net.codjo.gui.toolkit.path.FilePathField;
-import net.codjo.gui.toolkit.util.ErrorDialog;
-import net.codjo.mad.client.request.RequestException;
-import net.codjo.mad.client.request.Result;
-import net.codjo.mad.gui.request.DataSource;
-import net.codjo.mad.gui.request.RequestComboBox;
-import net.codjo.workflow.gui.wizard.AbstractSelectionStep;
-import net.codjo.workflow.gui.wizard.WizardConstants;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -21,10 +13,25 @@ import java.beans.PropertyChangeListener;
 import javax.swing.JLabel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import net.codjo.gui.toolkit.path.FilePathField;
+import net.codjo.gui.toolkit.util.ErrorDialog;
+import net.codjo.i18n.gui.InternationalizableContainer;
+import net.codjo.i18n.gui.TranslationNotifier;
+import net.codjo.imports.gui.plugin.ImportGuiPlugin;
+import net.codjo.mad.client.request.RequestException;
+import net.codjo.mad.client.request.Result;
+import net.codjo.mad.gui.framework.GuiContext;
+import net.codjo.mad.gui.i18n.InternationalizationUtil;
+import net.codjo.mad.gui.request.DataSource;
+import net.codjo.mad.gui.request.RequestComboBox;
+import net.codjo.workflow.gui.wizard.AbstractSelectionStep;
+import net.codjo.workflow.gui.wizard.WizardConstants;
+
+import static net.codjo.mad.gui.i18n.InternationalizationUtil.translate;
 /**
  *
  */
-public class ImportSelectionStep extends AbstractSelectionStep {
+public class ImportSelectionStep extends AbstractSelectionStep implements InternationalizableContainer {
     public static final String SELECTION_FILE = "import.file";
     public static final String SELECTION_TYPE = "import.type";
     private RequestComboBox importTypeCombo;
@@ -32,12 +39,28 @@ public class ImportSelectionStep extends AbstractSelectionStep {
     private JLabel errorLabel;
     private ImportSelector selector;
     private String importsInbox;
+    private GuiContext guiContext;
+    private JLabel importTypeComboLabel;
+    private JLabel importFilePathLabel;
 
 
-    public ImportSelectionStep(String importsInbox, ImportSelector importSelector) {
-        super(null, "Selection du type d'import :");
-        this.importsInbox = importsInbox;
+    public ImportSelectionStep(GuiContext guiContext, ImportSelector importSelector) {
+        super(null, "ImportSelectionStep.title");
+        this.guiContext = guiContext;
+        this.importsInbox = (String)guiContext.getProperty(ImportGuiPlugin.IMPORTS_INBOX_PARAMETER);
         selector = importSelector;
+
+        TranslationNotifier translationNotifier = InternationalizationUtil.retrieveTranslationNotifier(guiContext);
+        translationNotifier.addInternationalizableContainer(this);
+    }
+
+
+    public void addInternationalizableComponents(TranslationNotifier translationNotifier) {
+        translationNotifier.addInternationalizableComponent(this, "ImportSelectionStep.name");
+        translationNotifier.addInternationalizableComponent(importTypeComboLabel,
+                                                            "ImportSelectionStep.importTypeComboLabel");
+        translationNotifier.addInternationalizableComponent(importFilePathLabel,
+                                                            "ImportSelectionStep.importFilePathLabel");
     }
 
 
@@ -50,7 +73,7 @@ public class ImportSelectionStep extends AbstractSelectionStep {
             importTypeCombo.getDataSource().setLoadResult(result);
         }
         catch (RequestException ex) {
-            ErrorDialog.show(this, "Impossible de charger la liste des fichier d'import.", ex);
+            ErrorDialog.show(this, translate("ImportSelectionStep.initGui.loadErrorMessage", guiContext), ex);
         }
 
         importTypeCombo.getDataSource().addPropertyChangeListener(DataSource.SELECTED_ROW_PROPERTY,
@@ -76,6 +99,9 @@ public class ImportSelectionStep extends AbstractSelectionStep {
                 checkFulfilled();
             }
         });
+
+        importFilePath.setTranslationBackpack(InternationalizationUtil.retrieveTranslationManager(guiContext),
+                                              InternationalizationUtil.retrieveTranslationNotifier(guiContext));
     }
 
 
@@ -104,18 +130,19 @@ public class ImportSelectionStep extends AbstractSelectionStep {
         int maxFileNameLength = 39 - (filePrefix.length());
 
         if (finalFileName.length() > 39) {
-            errorLabel.setText("Le nom du fichier est trop long ! (" + maxFileNameLength
-                               + " caractère(s) au maximum)");
+            errorLabel.setText(
+                  translate("ImportSelectionStep.errorLabel.fileNameTooLong.begin", guiContext) + maxFileNameLength
+                  + " " + translate("ImportSelectionStep.errorLabel.fileNameTooLong.end", guiContext));
         }
         else if (finalFileName.indexOf(".") != finalFileName.lastIndexOf(".")) {
-            errorLabel.setText("Le nom du fichier doit contenir une seule extension !");
+            errorLabel.setText(translate("ImportSelectionStep.errorLabel.onlyOneExtension", guiContext));
         }
         else if (finalFileName.indexOf(".") > 0
                  && (finalFileName.length() - finalFileName.lastIndexOf(".") > 19)) {
-            errorLabel.setText("L'extension du fichier ne doit pas depasser 19 caractères !");
+            errorLabel.setText(translate("ImportSelectionStep.errorLabel.extensionNameTooLong", guiContext));
         }
         else if (!ImportFileUtil.checkFileName(finalFileName)) {
-            errorLabel.setText("Le nom du fichier contient des caractères non autorisés !");
+            errorLabel.setText(translate("ImportSelectionStep.errorLabel.nonAuthorizedCharacters", guiContext));
         }
         else {
             errorLabel.setText("");
@@ -142,7 +169,8 @@ public class ImportSelectionStep extends AbstractSelectionStep {
 
         Insets insets = new Insets(4, 4, 4, 4);
 
-        add(new JLabel("Type de fichier :"),
+        importTypeComboLabel = new JLabel();
+        add(importTypeComboLabel,
             new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.WEST,
                                    GridBagConstraints.HORIZONTAL, insets, 0, 0));
 
@@ -150,7 +178,8 @@ public class ImportSelectionStep extends AbstractSelectionStep {
             new GridBagConstraints(1, 0, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER,
                                    GridBagConstraints.HORIZONTAL, new Insets(4, 4, 4, 4), 0, 0));
 
-        add(new JLabel("Fichier à importer :"),
+        importFilePathLabel = new JLabel();
+        add(importFilePathLabel,
             new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0, GridBagConstraints.WEST,
                                    GridBagConstraints.HORIZONTAL, new Insets(4, 4, 4, 4), 0, 0));
 
