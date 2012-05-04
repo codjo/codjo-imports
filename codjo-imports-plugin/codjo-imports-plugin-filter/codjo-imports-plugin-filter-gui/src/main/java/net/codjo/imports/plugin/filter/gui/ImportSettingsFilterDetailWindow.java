@@ -4,6 +4,7 @@
  * Common Apache License 2.0
  */
 package net.codjo.imports.plugin.filter.gui;
+import javax.swing.JLabel;
 import net.codjo.imports.gui.ImportSettingsDetailWindow;
 import net.codjo.mad.client.request.RequestException;
 import net.codjo.mad.gui.request.DetailDataSource;
@@ -21,6 +22,6 @@ public class ImportSettingsFilterDetailWindow extends ImportSettingsDetailWindow
     @Override
     protected void buildFields() {
         super.buildFields();
-        addField("filterExpression", "Expression de filtre", new JTextArea(10, 20));
+        addField("filterExpression", new JLabel("Expression de filtre"), new JTextArea(10, 20));
     }
 }

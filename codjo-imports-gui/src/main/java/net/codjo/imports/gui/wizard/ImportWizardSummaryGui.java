@@ -4,7 +4,11 @@
  * Common Apache License 2.0
  */
 package net.codjo.imports.gui.wizard;
+import javax.swing.JLabel;
 import net.codjo.gui.toolkit.LabelledItemPanel;
+import net.codjo.i18n.gui.TranslationNotifier;
+import net.codjo.mad.gui.framework.GuiContext;
+import net.codjo.mad.gui.i18n.InternationalizationUtil;
 import net.codjo.workflow.gui.wizard.FinalStep;
 import net.codjo.workflow.gui.wizard.WizardConstants;
 import java.awt.Insets;
@@ -20,9 +24,16 @@ public class ImportWizardSummaryGui implements FinalStep.WizardSummaryGui {
     private JTextField fileType = createField("fileType");
 
 
-    public ImportWizardSummaryGui() {
-        guiPanel.addItem("Fichier :", filePath);
-        guiPanel.addItem("Type :", fileType);
+    public ImportWizardSummaryGui(GuiContext guiContext) {
+        TranslationNotifier translationNotifier = InternationalizationUtil.retrieveTranslationNotifier(guiContext);
+
+        JLabel fileLabel = new JLabel("Fichier :");
+        translationNotifier.addInternationalizableComponent(fileLabel, "ImportWizardSummaryGui.fileLabel");
+        guiPanel.addItem(fileLabel, filePath);
+
+        JLabel typeLabel = new JLabel("Type :");
+        translationNotifier.addInternationalizableComponent(typeLabel, "ImportWizardSummaryGui.typeLabel");
+        guiPanel.addItem(typeLabel, fileType);
     }
 
 

@@ -4,6 +4,9 @@
  * Common Apache License 2.0
  */
 package net.codjo.imports.gui.plugin;
+import java.io.File;
+import javax.swing.Action;
+import javax.swing.ImageIcon;
 import net.codjo.gui.toolkit.wizard.Wizard;
 import net.codjo.i18n.common.Language;
 import net.codjo.i18n.common.TranslationManager;
@@ -30,9 +33,6 @@ import net.codjo.workflow.gui.wizard.DefaultRequestTemplateFactory;
 import net.codjo.workflow.gui.wizard.FinalStep;
 import net.codjo.workflow.gui.wizard.WizardAction;
 import net.codjo.workflow.gui.wizard.WizardBuilder;
-import java.io.File;
-import javax.swing.Action;
-import javax.swing.ImageIcon;
 import org.xml.sax.InputSource;
 /**
  * Plugin permettant d'enregistrer les préférences des familles d'import.
@@ -44,7 +44,6 @@ public final class ImportGuiPlugin extends AbstractInternationalizableGuiPlugin 
     private static final String IMPORT_SETTINGS_PREFERENCE_ID = "ImportSettingsWindow";
     private static final String IMPORT_PREFERENCE_FILE_NAME = "importPreference.xml";
     private static final String WIZARD_IMAGE = "wizard.import.gif";
-    private static final String WIZARD_TITLE = "Assistant import";
     private static final String WIZARD_DESCRIPTION = "Assistant d'import à la demande";
     private static final String WIZARD_ACTION = "ImportWizard";
     private static final String IMPORT_ACTION = "ImportAction";
@@ -114,7 +113,7 @@ public final class ImportGuiPlugin extends AbstractInternationalizableGuiPlugin 
     private WizardAction createWizardAction(GuiConfiguration guiConfiguration) {
         String file = (String)guiConfiguration.getGuiContext().getProperty(IMPORT_VTOM_PARAMETER);
         return new WizardAction(guiConfiguration.getGuiContext(),
-                                WIZARD_TITLE,
+                                "net.codjo.imports.gui.plugin.ImportGuiPlugin#ImportWizard",
                                 WIZARD_DESCRIPTION,
                                 new ImportWizardBuilder(new File(file)),
                                 WIZARD_ACTION,
@@ -165,21 +164,21 @@ public final class ImportGuiPlugin extends AbstractInternationalizableGuiPlugin 
 
         public Wizard createWizard() {
             FinalStep.JobGuiData importStep =
-                  new FinalStep.JobGuiData(new DefaultJobGui("Import des données"),
+                  new FinalStep.JobGuiData(new DefaultJobGui(guiContext, "ImportGuiPlugin.import"),
                                            new ImportTemplateRequestFactory());
             FinalStep.JobGuiData controlStep =
-                  new FinalStep.JobGuiData(new DefaultJobGui("Contrôle"),
+                  new FinalStep.JobGuiData(new DefaultJobGui(guiContext, "ImportGuiPlugin.control"),
                                            new DefaultRequestTemplateFactory(
                                                  JobRequestTemplate.matchType("control")));
             FinalStep finalStep =
-                  new FinalStep("Importer...",
+                  new FinalStep("ImportGuiPlugin.finalStep.title",
                                 new ImportVtomCaller(new CommandFile(file)),
-                                new ImportWizardSummaryGui(),
-                                new DefaultJobGui("Traitement VTOM"),
+                                new ImportWizardSummaryGui(guiContext),
+                                new DefaultJobGui(guiContext, "ImportGuiPlugin.VTOMProcess"),
                                 new FinalStep.JobGuiData[]{importStep, controlStep});
 
             Wizard wizard = new Wizard();
-            wizard.addStep(new ImportSelectionStep((String)guiContext.getProperty(IMPORTS_INBOX_PARAMETER),
+            wizard.addStep(new ImportSelectionStep(guiContext,
                                                    getConfiguration().getWizardImportSelector()));
             configuration.importsWizardCustomizer.customizeWizard(wizard);
             wizard.setFinalStep(finalStep);

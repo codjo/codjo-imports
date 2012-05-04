@@ -1,17 +1,4 @@
 package net.codjo.imports.gui;
-import net.codjo.gui.toolkit.swing.CheckBoxRenderer;
-import net.codjo.mad.client.request.RequestException;
-import net.codjo.mad.common.structure.StructureReader;
-import net.codjo.mad.common.structure.TableStructure;
-import net.codjo.mad.gui.framework.GuiContext;
-import net.codjo.mad.gui.framework.LocalGuiContext;
-import net.codjo.mad.gui.request.PreferenceFactory;
-import net.codjo.mad.gui.request.RequestTable;
-import net.codjo.mad.gui.request.RequestToolBar;
-import net.codjo.mad.gui.request.JoinKeys;
-import net.codjo.mad.gui.request.Preference;
-import net.codjo.mad.gui.structure.StructureCache;
-import net.codjo.mad.gui.structure.StructureRenderer;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -24,13 +11,30 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import net.codjo.gui.toolkit.swing.CheckBoxRenderer;
+import net.codjo.i18n.gui.InternationalizableContainer;
+import net.codjo.i18n.gui.TranslationNotifier;
+import net.codjo.mad.client.request.RequestException;
+import net.codjo.mad.common.structure.StructureReader;
+import net.codjo.mad.common.structure.TableStructure;
+import net.codjo.mad.gui.framework.GuiContext;
+import net.codjo.mad.gui.framework.LocalGuiContext;
+import net.codjo.mad.gui.i18n.InternationalizableRequestTable;
+import net.codjo.mad.gui.i18n.InternationalizationUtil;
+import net.codjo.mad.gui.request.JoinKeys;
+import net.codjo.mad.gui.request.Preference;
+import net.codjo.mad.gui.request.PreferenceFactory;
+import net.codjo.mad.gui.request.RequestTable;
+import net.codjo.mad.gui.request.RequestToolBar;
+import net.codjo.mad.gui.structure.StructureCache;
+import net.codjo.mad.gui.structure.StructureRenderer;
 
-public class ImportWindow extends JInternalFrame {
+public class ImportWindow extends JInternalFrame implements InternationalizableContainer {
     static final String QUARANTINES_STRUCTURE = "StructureReader";
     private BorderLayout borderLayout1 = new BorderLayout();
     private BorderLayout borderLayout2 = new BorderLayout();
     private BorderLayout borderLayout3 = new BorderLayout();
-    private RequestTable contentsTable = new RequestTable();
+    private RequestTable sectionsTable = new RequestTable();
     private RequestToolBar contentsToolBar = new RequestToolBar();
     private StructureRenderer destinationFieldRenderer = new StructureRenderer();
     private JPanel filesPanel = new JPanel();
@@ -46,9 +50,23 @@ public class ImportWindow extends JInternalFrame {
         reader = ((StructureCache)ctxt.getProperty(StructureCache.STRUCTURE_CACHE)).getStructureReader();
         jbInit();
 
-        initContentsTable();
+        initSectionsTable();
         initFilesTable();
         initToolBars(ctxt);
+
+        TranslationNotifier translationNotifier = InternationalizationUtil.retrieveTranslationNotifier(ctxt);
+        translationNotifier.addInternationalizableContainer(this);
+    }
+
+
+    public void addInternationalizableComponents(TranslationNotifier translationNotifier) {
+        translationNotifier.addInternationalizableComponent(this, "ImportWindow.title");
+        translationNotifier.addInternationalizableComponent(filesPanel, "ImportWindow.filesPanel.title");
+        translationNotifier.addInternationalizableComponent(sectionsPanel, "ImportWindow.sectionsPanel.title");
+        translationNotifier.addInternationalizableComponent(new InternationalizableRequestTable(filesTable.getPreference(),
+                                                                                                filesTable));
+        translationNotifier.addInternationalizableComponent(new InternationalizableRequestTable(sectionsTable.getPreference(),
+                                                                                                sectionsTable));
     }
 
 
@@ -76,7 +94,7 @@ public class ImportWindow extends JInternalFrame {
         filesPanel.add(filesToolBar, BorderLayout.SOUTH);
         sectionsPanel.add(scrollPane1, BorderLayout.CENTER);
         sectionsPanel.add(contentsToolBar, BorderLayout.SOUTH);
-        scrollPane1.getViewport().add(contentsTable, null);
+        scrollPane1.getViewport().add(sectionsTable, null);
         scrollPane.getViewport().add(filesTable, null);
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, filesPanel, sectionsPanel);
@@ -87,14 +105,14 @@ public class ImportWindow extends JInternalFrame {
     }
 
 
-    private void initContentsTable() {
+    private void initSectionsTable() {
         Preference preference = PreferenceFactory.getPreference("FieldImportWindow");
-        contentsTable.setPreference(preference);
-        contentsTable.getModel().addTableModelListener(new TableListener());
-        contentsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        contentsTable.setCellRenderer("dbDestinationFieldName", destinationFieldRenderer);
+        sectionsTable.setPreference(preference);
+        sectionsTable.getModel().addTableModelListener(new TableListener());
+        sectionsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        sectionsTable.setCellRenderer("dbDestinationFieldName", destinationFieldRenderer);
         if (-1 < preference.getColumnIndex("removeLeftZeros")) {
-            contentsTable.setCellRenderer("removeLeftZeros", new CheckBoxRenderer());
+            sectionsTable.setCellRenderer("removeLeftZeros", new CheckBoxRenderer());
         }
     }
 
@@ -112,7 +130,7 @@ public class ImportWindow extends JInternalFrame {
         LocalGuiContext localCtxt = new LocalGuiContext(context);
         localCtxt.putProperty(QUARANTINES_STRUCTURE, reader.getQuarantineTables());
         initToolbar(filesToolBar, localCtxt, filesTable);
-        initToolbar(contentsToolBar, localCtxt, contentsTable);
+        initToolbar(contentsToolBar, localCtxt, sectionsTable);
 
         contentsToolBar.setFather(filesTable.getDataSource(), new JoinKeys("importSettingsId"));
     }
