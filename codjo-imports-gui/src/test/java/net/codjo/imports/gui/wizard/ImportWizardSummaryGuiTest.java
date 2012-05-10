@@ -4,6 +4,7 @@
  * Common Apache License 2.0
  */
 package net.codjo.imports.gui.wizard;
+import net.codjo.imports.gui.ImportsGuiContext;
 import net.codjo.workflow.gui.wizard.WizardUtil;
 import java.util.Map;
 import org.uispec4j.Panel;
@@ -16,7 +17,7 @@ public class ImportWizardSummaryGuiTest extends UISpecTestCase {
         Map displayStart =
               WizardUtil.createImportState("to_import.txt", "Decisiv", "inbox");
 
-        ImportWizardSummaryGui summaryPanel = new ImportWizardSummaryGui();
+        ImportWizardSummaryGui summaryPanel = new ImportWizardSummaryGui(new ImportsGuiContext());
 
         summaryPanel.display(displayStart);
 

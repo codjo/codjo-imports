@@ -4,17 +4,23 @@
  * Common Apache License 2.0
  */
 package net.codjo.imports.gui.wizard;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.io.IOException;
 import net.codjo.gui.toolkit.wizard.Step;
+import net.codjo.i18n.common.Language;
+import net.codjo.i18n.gui.TranslationNotifier;
+import net.codjo.imports.gui.ImportsGuiContext;
+import net.codjo.imports.gui.plugin.ImportGuiPlugin;
 import net.codjo.mad.client.request.MadServerFixture;
+import net.codjo.mad.gui.framework.MutableGuiContext;
+import net.codjo.mad.gui.i18n.InternationalizationUtil;
 import net.codjo.test.common.LogString;
 import net.codjo.test.common.fixture.CompositeFixture;
 import net.codjo.test.common.fixture.DirectoryFixture;
 import net.codjo.util.file.FileUtil;
 import net.codjo.workflow.gui.wizard.WizardConstants;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.File;
-import java.io.IOException;
 import org.uispec4j.ComboBox;
 import org.uispec4j.Panel;
 import org.uispec4j.TextBox;
@@ -32,10 +38,11 @@ public class ImportSelectionStepTest extends UISpecTestCase {
     private LogString log = new LogString();
     private Panel panel;
     private ImportSelectionStep step;
+    private MutableGuiContext guiContext;
 
 
     public void test_stepIsFulfilled() throws Exception {
-        assertEquals("Selection du type d'import :", step.getName());
+        assertEquals("Selection du type d'import :", InternationalizationUtil.translate(step.getName(), guiContext));
 
         mockStart(step);
 
@@ -78,7 +85,8 @@ public class ImportSelectionStepTest extends UISpecTestCase {
 
 
     public void test_overrideImportSelector() throws Exception {
-        step = new ImportSelectionStep("c:/inbox", new ImportSelectorMock(log));
+        guiContext.putProperty(ImportGuiPlugin.IMPORTS_INBOX_PARAMETER, "c:/inbox");
+        step = new ImportSelectionStep(guiContext, new ImportSelectorMock(log));
         step.start(null);
         log.assertContent("selectImportItems([importSettingsId, fileType])");
     }
@@ -87,6 +95,15 @@ public class ImportSelectionStepTest extends UISpecTestCase {
     public void test_fileNameTooLong() throws Exception {
         assertBadFile("thisFileIsTooLongToBeImported.txt",
                       "Le nom du fichier est trop long ! (22 caractère(s) au maximum)");
+    }
+
+
+    public void test_fileNameTooLongEnglish() throws Exception {
+        TranslationNotifier translationNotifier = InternationalizationUtil.retrieveTranslationNotifier(guiContext);
+        translationNotifier.setLanguage(Language.EN);
+
+        assertBadFile("thisFileIsTooLongToBeImported.txt",
+                      "File Name Too Long ! (22 character(s) max)");
     }
 
 
@@ -108,7 +125,9 @@ public class ImportSelectionStepTest extends UISpecTestCase {
         System.getProperties().put("user.name", "toto");
         DefaultImportSelector importSelector =
               new DefaultImportSelector(madServerFixture.getOperations(), "selectAllImportSettings");
-        step = new ImportSelectionStep("inbox", importSelector);
+        guiContext = new ImportsGuiContext();
+        guiContext.putProperty(ImportGuiPlugin.IMPORTS_INBOX_PARAMETER, "inbox");
+        step = new ImportSelectionStep(guiContext, importSelector);
         panel = new Panel(step);
         fixture.doSetUp();
     }
