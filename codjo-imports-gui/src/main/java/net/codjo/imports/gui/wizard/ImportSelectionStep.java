@@ -13,6 +13,7 @@ import java.beans.PropertyChangeListener;
 import javax.swing.JLabel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import net.codjo.gui.toolkit.fileChooser.FileChooserUtils;
 import net.codjo.gui.toolkit.path.FilePathField;
 import net.codjo.gui.toolkit.util.ErrorDialog;
 import net.codjo.i18n.gui.InternationalizableContainer;
@@ -100,8 +101,12 @@ public class ImportSelectionStep extends AbstractSelectionStep implements Intern
             }
         });
 
+        TranslationNotifier notifier = InternationalizationUtil.retrieveTranslationNotifier(guiContext);
         importFilePath.setTranslationBackpack(InternationalizationUtil.retrieveTranslationManager(guiContext),
-                                              InternationalizationUtil.retrieveTranslationNotifier(guiContext));
+                                              notifier);
+
+        importFilePath.setWithAccessories(false);
+        FileChooserUtils.setUILanguage(notifier.getLanguage().getLocale());
     }
 
 
