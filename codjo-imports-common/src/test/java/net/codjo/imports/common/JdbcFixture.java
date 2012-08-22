@@ -21,12 +21,14 @@ public class JdbcFixture {
     private String password;
     private java.sql.Connection connection;
 
+
     public JdbcFixture() {
         setUrl("jdbc:hsqldb:.");
         setDriver("org.hsqldb.jdbcDriver");
         setUsername("sa");
         setPassword("");
     }
+
 
     public void setUp() {
         ;
@@ -35,10 +37,14 @@ public class JdbcFixture {
 
     public void createSampleTable() throws SQLException {
         Statement stmt = getConnection().createStatement();
-        stmt.executeUpdate("create table DEST_IMPORT ( "
-            + "      COL_DECIMAL numeric(17,5) null, " + "      COL_DATE date null, "
-            + "      COL_STRING varchar(100) null " + ")");
-        stmt.close();
+        try {
+            stmt.executeUpdate("create table DEST_IMPORT ( "
+                               + "      COL_DECIMAL numeric(17,5) null, " + "      COL_DATE date null, "
+                               + "      COL_STRING varchar(100) null " + ")");
+        }
+        finally {
+            stmt.close();
+        }
     }
 
 
@@ -50,7 +56,7 @@ public class JdbcFixture {
 
 
     public static void dumpResultSet(ResultSet resultSet, Writer outWriter)
-            throws SQLException {
+          throws SQLException {
         PrintWriter out = new PrintWriter(outWriter);
         ResultSetMetaData rsmd = resultSet.getMetaData();
 
@@ -129,7 +135,7 @@ public class JdbcFixture {
             catch (Exception ex) {
                 ex.printStackTrace();
                 throw new RuntimeException(
-                    "Erreur lors de la création de la connection !");
+                      "Erreur lors de la création de la connection !");
             }
         }
         return connection;
