@@ -317,27 +317,6 @@ public class QueryHelper {
 
 
     /**
-     * Applique un select sur la table avec un tri. Attention : Cette requete n'est pas optimisee (Statement
-     * standard).
-     *
-     * @param orderClause La clause de tri (ex : "TABLE_NAME").
-     *
-     * @return Le ResultSet de la requete trie.
-     *
-     * @throws SQLException En cas d'erreur lors de l'acces a la base.
-     */
-    public ResultSet doSelectAllOrderedBy(String orderClause)
-          throws SQLException {
-        if (orderClause == null) {
-            throw new IllegalArgumentException("Clause de tri non renseignee");
-        }
-        Statement stmt = connection.createStatement();
-        return stmt.executeQuery("select * from " + dbTableName + " order by "
-                                 + orderClause);
-    }
-
-
-    /**
      * Mise-a-jours d'un enregistrement.
      *
      * @throws SQLException En cas d'erreur lors de l'acces a la base.

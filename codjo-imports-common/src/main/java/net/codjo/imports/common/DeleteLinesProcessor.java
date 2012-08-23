@@ -36,7 +36,12 @@ public class DeleteLinesProcessor extends ProcessorAdapter {
     @Override
     public void preProceed(Connection con, String quarantineTableName, File file) throws SQLException {
         Statement stmt = con.createStatement();
-        stmt.executeUpdate("delete from " + quarantineTableName
-                           + ((whereClause != null) ? " where " + whereClause : ""));
+        try {
+            stmt.executeUpdate("delete from " + quarantineTableName
+                               + ((whereClause != null) ? " where " + whereClause : ""));
+        }
+        finally {
+            stmt.close();
+        }
     }
 }

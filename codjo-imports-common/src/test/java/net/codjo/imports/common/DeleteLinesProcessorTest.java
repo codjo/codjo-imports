@@ -25,6 +25,7 @@ public class DeleteLinesProcessorTest extends TestCase {
 
         mockStmt.executeUpdate("delete from TABLE where CONDITION");
         ctrlStmt.setReturnValue(5);
+        mockStmt.close();
 
         replay();
 
@@ -41,6 +42,7 @@ public class DeleteLinesProcessorTest extends TestCase {
 
         mockStmt.executeUpdate("delete from TABLE");
         ctrlStmt.setReturnValue(5);
+        mockStmt.close();
 
         replay();
 
