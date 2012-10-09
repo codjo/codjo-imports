@@ -36,11 +36,23 @@ public class JdbcFixture {
 
 
     public void createSampleTable() throws SQLException {
+        dropTable("DEST_IMPORT");
         Statement stmt = getConnection().createStatement();
         try {
             stmt.executeUpdate("create table DEST_IMPORT ( "
                                + "      COL_DECIMAL numeric(17,5) null, " + "      COL_DATE date null, "
                                + "      COL_STRING varchar(100) null " + ")");
+        }
+        finally {
+            stmt.close();
+        }
+    }
+
+
+    public void dropTable(String tableName) throws SQLException {
+        Statement stmt = getConnection().createStatement();
+        try {
+            stmt.executeUpdate("drop table " + tableName + " if exists");
         }
         finally {
             stmt.close();
