@@ -38,9 +38,9 @@ public class ImportTest extends TestCase {
 
         assertEquals("\"COL_DECIMAL\", \"COL_DATE\", \"COL_STRING\""
                      + System.getProperty("line.separator")
-                     + "\"9999.25\", \"2002-01-30\", \"Le petit cheval blanc\""
+                     + "\"9999.25000\", \"2002-01-30\", \"Le petit cheval blanc\""
                      + System.getProperty("line.separator")
-                     + "\"888.25\", \"2002-02-28\", \"Le grand toto\""
+                     + "\"888.25000\", \"2002-02-28\", \"Le grand toto\""
                      + System.getProperty("line.separator"), result.toString());
     }
 
@@ -60,9 +60,9 @@ public class ImportTest extends TestCase {
 
         assertEquals("\"COL_DECIMAL\", \"COL_DATE\", \"COL_STRING\""
                      + System.getProperty("line.separator")
-                     + "\"9999.25\", \"2002-01-30\", \"Le petit cheval blanc\""
+                     + "\"9999.25000\", \"2002-01-30\", \"Le petit cheval blanc\""
                      + System.getProperty("line.separator")
-                     + "\"888.25\", \"2002-02-28\", \"Le grand toto\""
+                     + "\"888.25000\", \"2002-02-28\", \"Le grand toto\""
                      + System.getProperty("line.separator"), result.toString());
     }
 
@@ -88,7 +88,7 @@ public class ImportTest extends TestCase {
 
         assertEquals("\"COL_DECIMAL\", \"COL_DATE\", \"COL_STRING\""
                      + System.getProperty("line.separator")
-                     + "\"9999.25\", \"2002-01-30\", \"Le petit cheval blanc\""
+                     + "\"9999.25000\", \"2002-01-30\", \"Le petit cheval blanc\""
                      + System.getProperty("line.separator"), result.toString());
     }
 
