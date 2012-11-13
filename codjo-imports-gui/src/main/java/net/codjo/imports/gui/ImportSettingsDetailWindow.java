@@ -33,7 +33,7 @@ public class ImportSettingsDetailWindow extends JInternalFrame implements Intern
     private ButtonPanelLogic buttonPanelLogic = new ButtonPanelLogic();
     private LabelledItemPanel mainPanel = new LabelledItemPanel();
     private DetailDataSource dataSource;
-    private TranslationNotifier translationNotifier;
+    protected TranslationNotifier translationNotifier;
     private JLabel destinationTableLabel = new JLabel();
     private JLabel fileTypeLabel = new JLabel();
     private JLabel sourceSystemLabel = new JLabel();
